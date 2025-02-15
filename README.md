@@ -8,10 +8,7 @@ A full-stack URL shortener built using the **PERN stack** (PostgreSQL, Express.j
 ✅ User authentication (sign up, login, logout)  
 ✅ Track click statistics for shortened URLs  
 ✅ Guest users can shorten URLs without an account  
-✅ Logged-in users can manage and view their shortened URLs  
-✅ Secure password storage with bcrypt  
-✅ Modern UI with **Tailwind CSS**  
-✅ Fully responsive design  
+✅ Logged-in users can manage and view their shortened URLs
 
 ## 🛠️ Tech Stack
 
@@ -20,43 +17,8 @@ A full-stack URL shortener built using the **PERN stack** (PostgreSQL, Express.j
 **Database:** PostgreSQL  
 **Authentication:** bcrypt for password hashing  
 **Hosting:**  
-- **Frontend:** GitHub Pages  
+- **Frontend:** Vercel  
 - **Backend:** Railway  
-
-## 🚀 Getting Started
-
-### 📥 Installation
-
-1. **Clone the repository**
-   ```sh
-   git clone https://github.com/your-username/url-shortener.git
-   cd url-shortener
-   ```
-
-2. **Backend Setup**
-   ```sh
-   cd backend
-   npm install
-   npm start
-   ```
-
-3. **Frontend Setup**
-   ```sh
-   cd frontend
-   npm install
-   npm start
-   ```
-
-### 🔧 Environment Variables
-
-Create a `.env` file in the **backend** directory and add:
-
-```
-PORT=5000
-DATABASE_URL=your_postgresql_connection_string
-JWT_SECRET=your_secret_key
-CLIENT_URL=http://localhost:3000
-```
 
 ## 🎯 Usage
 
@@ -64,23 +26,7 @@ CLIENT_URL=http://localhost:3000
 - Register or log in to manage your URLs.
 - As a guest, you can still shorten URLs but without tracking features.
 
-## 🚢 Deployment
-
-- **Frontend:** Deploy on GitHub Pages using:
-  ```sh
-  npm run deploy
-  ```
-- **Backend:** Deploy on **Railway** following their documentation.
-
-## 🤝 Contributing
-
-Contributions are **welcome**! Feel free to **fork** the repository and submit a pull request.
-
-## 📜 License
-
-This project is licensed under the **MIT License**.
-
 ## 📬 Contact
 
-For any inquiries, reach out at [your email] or open an **issue** on GitHub. 🚀
+For any inquiries, reach out at prashantrathore1435@gmail.com .
 
