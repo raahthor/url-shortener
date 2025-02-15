@@ -10,7 +10,7 @@ export default function HomePage({ onLogin, setData }) {
       <FloatingItems />
       <Blobs />
       <div className="h-[60px] pt-5 text-center">
-        <CardTitle className="text-3xl">URL Shortner</CardTitle>
+        <CardTitle className="text-3xl">URL Shortener</CardTitle>
       </div>
       <div className="flex h-full flex-col items-center px-10 py-8">
         <UrlSection />
