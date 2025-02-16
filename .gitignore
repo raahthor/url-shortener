@@ -9,8 +9,7 @@ dist
 dist-ssr
 *.local
 package-lock.json
-# Frontend/src/output.css
-Frontend/src/old.css
+Frontend/src/output.css
 
 # Editor directories and files
 .vscode/*
