@@ -1,7 +1,5 @@
 import { Card, CardTitle } from "./ui/card";
 
-const baseURL = import.meta.env.VITE_BACKEND_URL;
-
 export default function UserStats({ stats }) {
   
   return (
@@ -31,7 +29,7 @@ export default function UserStats({ stats }) {
                   </td>
 
                   <td className="max-w-[100px] truncate border border-gray-500 px-2 py-1">
-                    <a href={baseURL+"/"+item.shortUrl} target="_blank">{baseURL+"/"+item.shortUrl}</a>
+                    <a href={item.shortUrl} target="_blank">{item.shortUrl}</a>
                   </td>
                   <td className="max-w-[50px] truncate border border-gray-500 px-2 py-1">
                     {item.clicks}

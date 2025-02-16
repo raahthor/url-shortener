@@ -2,7 +2,7 @@ import express from "express";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
-import generateShortId from "../Controllers/generateShortId.js";
+import { nanoid } from "nanoid";
 import storeUrl from "../Controllers/storeUrl.js";
 import URL from "../Models/urls.model.js";
 import User from "../Models/users.model.js";
@@ -113,14 +113,14 @@ router.post("/api/generateURL", async (req, res) => {
       message: "Invalid URL, Go back and try again",
     });
   }
-
-  const shortUrl = generateShortId(orgUrl);
-  await storeUrl(orgUrl, shortUrl, username);
+  const urlCode=nanoid(6);
+  const shortUrlGen=`${process.env.BASE_URL}/${urlCode}`
+  await storeUrl(orgUrl, shortUrlGen, username);
 
   res.json({
     success: true,
     message: "URL generated successfully",
-    shortUrl: `${process.env.BASE_URL}/${shortUrl}`,
+    shortUrl: shortUrlGen,
   });
 });
 
