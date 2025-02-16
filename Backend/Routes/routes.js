@@ -136,7 +136,7 @@ router.post("/api/generateURL", async (req, res) => {
 
 router.get("/:shortID", async (req, res) => {
   try {
-    const shortUrl = req.params.shortID;
+    const shortUrl = `${process.env.BASE_URL}/${req.params.shortID}`;
     const urlEntry = await URL.findOne({ where: { shortUrl } });
     if (!urlEntry) {
       return res.status(400).json({ error: "URL not found" });
