@@ -30,10 +30,18 @@ export default function SignUpPage() {
   }
   async function handleCreateUser(event) {
     event.preventDefault();
+
+    if (
+      newUser.name.trim() === "" ||
+      newUser.password.trim() === "" ||
+      newUser.username.trim() === ""
+    )
+      return alert("Please fill the details first!");
+
     const response = await axios.post(`${baseURL}/api/createUser`, {
-      name: newUser.name,
-      username: newUser.username,
-      password: newUser.password,
+      name: newUser.name.trim(),
+      username: newUser.username.trim(),
+      password: newUser.password.trim(),
     });
     if (response.data.success === true) {
       alert(response.data.message);
@@ -41,7 +49,6 @@ export default function SignUpPage() {
     } else {
       alert(response.data.message);
     }
-    
   }
   return (
     <div className="flex h-full flex-col items-center">
@@ -78,7 +85,7 @@ export default function SignUpPage() {
                 <div className="grid gap-2">
                   <Label>Create a unique Username</Label>
                   <Input
-                    value={newUser.username}
+                    value={newUser.username.trim()}
                     name="username"
                     onChange={handleChange}
                     placeholder="Username"
@@ -88,7 +95,7 @@ export default function SignUpPage() {
                 <div className="grid gap-2">
                   <Label>Create Password</Label>
                   <Input
-                    value={newUser.password}
+                    value={newUser.password.trim()}
                     name="password"
                     onChange={handleChange}
                     placeholder="Password"
@@ -96,9 +103,6 @@ export default function SignUpPage() {
                   />
                 </div>
                 <Button
-                  disabled={
-                    !newUser.name || !newUser.username || !newUser.password
-                  }
                   onClick={handleCreateUser}
                   className="w-full bg-blue-600 hover:bg-blue-700"
                 >

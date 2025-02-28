@@ -1,7 +1,6 @@
 import { Card, CardTitle } from "./ui/card";
 
 export default function UserStats({ stats }) {
-  
   return (
     <div className="w-80 md:w-[600px]">
       <Card className="mb-4 flex flex-col items-center justify-evenly px-2 py-4">
@@ -25,11 +24,15 @@ export default function UserStats({ stats }) {
               return (
                 <tr key={item.id}>
                   <td className="max-w-[100px] truncate border border-gray-500 px-2 py-1">
-                    <a href={item.originalUrl} target="_blank">{item.originalUrl}</a>
+                    <a href={item.originalUrl} target="_blank">
+                      {item.originalUrl}
+                    </a>
                   </td>
 
                   <td className="max-w-[100px] truncate border border-gray-500 px-2 py-1">
-                    <a href={item.shortUrl} target="_blank">{item.shortUrl}</a>
+                    <a href={item.shortUrl} target="_blank">
+                      {item.shortUrl}
+                    </a>
                   </td>
                   <td className="max-w-[50px] truncate border border-gray-500 px-2 py-1">
                     {item.clicks}
@@ -39,6 +42,9 @@ export default function UserStats({ stats }) {
             })}
           </tbody>
         </table>
+        {stats.length === 0 && (
+          <CardTitle className="p-4">No shortened links yet, Generate short URLs</CardTitle>
+        )}
       </Card>
     </div>
   );

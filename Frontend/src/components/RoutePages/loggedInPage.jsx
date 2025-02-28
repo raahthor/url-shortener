@@ -1,20 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Blobs from "../bg-blobs";
 import { CardTitle } from "../ui/card";
 import UrlSectionLogin from "../urlSectionLogin";
 import UserStats from "../userStats";
+import axios from "axios";
+
+const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 export default function LoggedInPage({ onLogout, data }) {
+  async function handleLogout() {
+    try {
+      await axios.post(`${baseURL}/api/logout`,{}, {
+        withCredentials: true,
+      });
+      onLogout(false);
+      window.location.href="/home"
+    } catch (err) {
+      console.error("error loggin out : ", err.message);
+    }
+  }
+
   const [urlArr, setUrlArr] = useState(data.userStats);
+
   return (
     <div className="flex h-auto flex-col items-center">
       <Blobs />
+
       <div className="mb-8 flex h-[50px] w-full justify-center pt-5">
         <CardTitle className="px-10 text-xl md:text-2xl">
           Hey👋, {data.name}
         </CardTitle>
+
         <button
-          onClick={() => onLogout(false)}
+          onClick={handleLogout}
           className="absolute right-2 rounded-md bg-blue-600 p-2 text-sm font-semibold text-white hover:bg-blue-700 md:right-4"
         >
           <svg

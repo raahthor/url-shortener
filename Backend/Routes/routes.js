@@ -7,7 +7,8 @@ import storeUrl from "../Controllers/storeUrl.js";
 import URL from "../Models/urls.model.js";
 import User from "../Models/users.model.js";
 import storeUser from "../Controllers/storeUser.js";
-// import authenticator from "../Controllers/authenticator.js";
+import authenticator from "../Controllers/authenticator.js";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 dotenv.config();
@@ -44,30 +45,23 @@ router.post("/api/login", async (req, res) => {
     if (userEntry) {
       const isPassword = await bcrypt.compare(password, userEntry.password);
       if (isPassword) {
-        // const token = jwt.sign(
-        //   { username },
-        //   process.env.JWT_SECRET || "dib2637f3c4st23c2y34",
-        //   {
-        //     expiresIn: "1h",
-        //   }
-        // );
-        // res.cookie("token", token, {
-        //   httpOnly: true,
-        //   secure: true,
-        //   sameSite: "strict",
-        // });
-        let statsArr = [];
-        try {
-          statsArr = await URL.findAll({ where: { username } });
-        } catch (err) {
-          console.error("user stats error: ", err.message);
-        }
+        //generating jwt token for authentication
+        const token = jwt.sign(
+          { username: userEntry.username },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: "1h",
+          }
+        );
+
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+        });
 
         return res.json({
           success: true,
-          userStats: statsArr,
-          username: userEntry.username,
-          name: userEntry.name,
           message: "Logged In Successfully.",
         });
       } else {
@@ -86,21 +80,32 @@ router.post("/api/login", async (req, res) => {
   }
 });
 
-// router.get("/checkAuth", async (req, res) => {
-//   const token = req.cookies.token;
+router.get("/api/checkAuthorization", authenticator, async (req, res) => {
+  const username = req.username;
 
-//   if (!token)
-//     return res.json({ success: false, message: "Unauthorized, Login again !" });
-//   try {
-//     const decoded = jwt.verify(
-//       token,
-//       process.env.JWT_SECRET || "dib2637f3c4st23c2y34"
-//     );
-//     return res.json({ success: true, message: "Authorized", user: decoded });
-//   } catch (error) {
-//     console.error("middleware error", error.message);
-//   }
-// });
+  let statsArr = [];
+  let userData = {};
+
+  // send data again here
+  try {
+    statsArr = await URL.findAll({ where: { username } });
+    userData = await User.findOne({ where: { username } });
+  } catch (err) {
+    console.error("user stats error: ", err.message);
+    return res.json({
+      success: false,
+      message: "Something went wrong, Try Again!",
+    });
+  }
+
+  return res.json({
+    success: true,
+    userStats: statsArr,
+    username: userData.username,
+    name: userData.name,
+    message: "Authorized In Successfully.",
+  });
+});
 
 router.post("/api/generateURL", async (req, res) => {
   const orgUrl = req.body.longUrl;
@@ -113,8 +118,8 @@ router.post("/api/generateURL", async (req, res) => {
       message: "Invalid URL, Go back and try again",
     });
   }
-  const urlCode=nanoid(6);
-  const shortUrlGen=`${process.env.BASE_URL}/${urlCode}`
+  const urlCode = nanoid(6);
+  const shortUrlGen = `${process.env.BASE_URL}/${urlCode}`;
   await storeUrl(orgUrl, shortUrlGen, username);
 
   res.json({
@@ -124,15 +129,15 @@ router.post("/api/generateURL", async (req, res) => {
   });
 });
 
-// router.get("/logout", (req, res) => {
-//   const token = req.cookies.token;
-//   res.clearCookie("token", token, {
-//     httpOnly: true,
-//     secure: true,
-//     sameSite: "strict",
-//   });
-//   res.json({ message: "Logged out succesfully" });
-// });
+router.post("/api/logout", (req, res) => {
+  
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+  res.json({ isLoggedOut: true, message: "Logged out succesfully" });
+});
 
 router.get("/:shortID", async (req, res) => {
   try {

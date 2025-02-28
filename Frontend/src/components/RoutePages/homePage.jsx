@@ -4,7 +4,7 @@ import Blobs from "../../components/bg-blobs.jsx";
 import { LoginForm } from "../login-form";
 import UrlSection from "../urlSection";
 
-export default function HomePage({ onLogin, setData }) {
+export default function HomePage({ onLogin}) {
   return (
     <>
       <FloatingItems />
@@ -14,7 +14,7 @@ export default function HomePage({ onLogin, setData }) {
       </div>
       <div className="flex h-full flex-col items-center px-10 py-8">
         <UrlSection />
-        <LoginForm onLogin={onLogin} setData={setData} />
+        <LoginForm onLogin={onLogin} />
       </div>
     </>
   );

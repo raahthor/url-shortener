@@ -15,7 +15,7 @@ import { useState } from "react";
 
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
-export function LoginForm({ className, onLogin, setData, ...props }) {
+export function LoginForm({ className, onLogin, ...props }) {
   const [userInput, updateUserInput] = useState("");
   const [passInput, updatePassInput] = useState("");
 
@@ -29,18 +29,19 @@ export function LoginForm({ className, onLogin, setData, ...props }) {
       return;
     }
 
-    const response = await axios.post(`${baseURL}/api/login`, {
-      username: userInput,
-      password: passInput,
-    });
+    const response = await axios.post(
+      `${baseURL}/api/login`,
+      {
+        username: userInput,
+        password: passInput,
+      },
+      {
+        withCredentials: true,
+      },
+    );
 
-    if (response.data.success === true) {
-      setData({
-        username: response.data.username,
-        name: response.data.name,
-        userStats: response.data.userStats,
-      });
-      onLogin(true);
+    if (response.data.success) {
+      onLogin();
       navigate("/loggedIn");
     } else {
       alert(response.data.message);
@@ -63,26 +64,25 @@ export function LoginForm({ className, onLogin, setData, ...props }) {
           <form>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label >Username</Label>
+                <Label>Username</Label>
                 <Input
-                  onChange={(e) => updateUserInput(e.target.value)}
+                  onChange={(e) => updateUserInput(e.target.value.trim())}
                   value={userInput}
                   placeholder="username"
                 />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label >Password</Label>
+                  <Label>Password</Label>
                 </div>
                 <Input
-                  onChange={(e) => updatePassInput(e.target.value)}
+                  onChange={(e) => updatePassInput(e.target.value.trim())}
                   value={passInput}
                   type="password"
                   placeholder="password"
                 />
               </div>
               <Button
-                disabled={!userInput || !passInput}
                 onClick={handleLogin}
                 className="w-full bg-blue-600 hover:bg-blue-700"
               >

@@ -16,8 +16,12 @@ const baseURL = import.meta.env.VITE_BACKEND_URL;
 function copyToClipboard(event) {
   event.preventDefault();
   const copyText = document.getElementById("copyText");
+
+  if (copyText.value === "") return alert("Generate a URL first! ");
+
   copyText.select();
-  copyText.setSelectionRange(0, 99999); // For mobile devices
+  copyText.setSelectionRange(0, 99999);
+
   navigator.clipboard
     .writeText(copyText.value)
     .then(() => alert("Copied to clipboard!"))
@@ -35,7 +39,7 @@ export default function UrlSection({ className, ...props }) {
 
   async function handleGenerate(event) {
     event.preventDefault();
-    if (urlInput === "" || urlInput === " ") {
+    if (urlInput.trim() === "") {
       alert("Enter a URL !");
       updateShortUrl("");
       return;
@@ -83,6 +87,7 @@ export default function UrlSection({ className, ...props }) {
                 <div className="flex">
                   <div className="inline w-56 md:w-[500px]">
                     <Input
+                      className="rounded-none rounded-l-md"
                       id="copyText"
                       value={shortUrl}
                       placeholder="Short URL will be here"
