@@ -7,7 +7,7 @@ A full-stack URL shortener built using the **PERN stack** (PostgreSQL, Express.j
 ##  Features
 
 * Instantly shorten long URLs  
-* User authentication (sign up, login, logout)  
+* User authentication using JWT (sign up, login, logout)  
 * Track click statistics for shortened URLs  
 * Guest users can shorten URLs without an account  
 * Logged-in users can manage and view their shortened URLs
@@ -17,7 +17,7 @@ A full-stack URL shortener built using the **PERN stack** (PostgreSQL, Express.j
 **Frontend:** React, Tailwind CSS  
 **Backend:** Node.js, Express.js  
 **Database:** PostgreSQL  
-**Authentication:** bcrypt for password hashing  
+**Authentication:** jwt (json web tokens) for secure authorization, bcrypt for password hashing 
  
 
 ##  Access Modes
